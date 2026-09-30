@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import CustomerModal from "../../components/Customer/CustomerModal";
 import {
     showSuccessAlert,
     showErrorAlert
@@ -15,32 +16,32 @@ function CustomerForm({
     onCustomerAdded
 }) {
 
-    const [name, setName] = useState(
-        customer?.name || ""
-    );
-
-    const [phone, setPhone] = useState(
-        customer?.phone || ""
-    );
-
-    const [email, setEmail] = useState(
-        customer?.email || ""
-    );
-
+    const [formData, setFormData] = useState(
+    customer || new CustomerModel()
+);
 
     const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     const customerData = {
-        name: name,
-        phone: phone,
-        email: email
-    };
+    name: formData.name,
+    phone: formData.phone,
+    email: formData.email
+};
+
+useEffect(() => {
+    if (customer) {
+        setFormData(customer);
+    } else {
+        setFormData(new CustomerModel());
+    }
+}, [customer]);
 
     try {
 
-        if (customer) {
+        if (customer) //decides whether add or update, add in case of null, customer initially null
+        {
 
             await updateCustomer(
                 customer.id,
@@ -85,31 +86,40 @@ function CustomerForm({
 
 
             <input
-                type="text"
-                placeholder="Name"
-                value={name}
-                onChange={(e) =>
-                    setName(e.target.value)
-                }
-            />
+              type="text"
+              placeholder="Name"
+              value={formData.name}
+              onChange={(e) =>
+              setFormData({
+            ...formData,
+            name: e.target.value
+              })
+              }
+             />
 
 
             <input
                 type="text"
                 placeholder="Phone"
-                value={phone}
+                value={formData.phone}
                 onChange={(e) =>
-                    setPhone(e.target.value)
-                }
+              setFormData({
+            ...formData,
+            phone: e.target.value
+              })
+            }
             />
 
 
             <input
                 type="email"
                 placeholder="Email"
-                value={email}
+                value={formData.email}
                 onChange={(e) =>
-                    setEmail(e.target.value)
+                    setFormData({
+            ...formData,
+            email: e.target.value
+              })
                 }
             />
 

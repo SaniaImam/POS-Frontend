@@ -1,5 +1,6 @@
-import CustomerForm from "../components/Customer/CustomerForm";
-import "./CustomerModal.css";
+import CustomerForm from "./CustomerForm";
+import "../../styles/Customer/CustomerModal.css";
+
 
 function CustomerModal({
     customer,

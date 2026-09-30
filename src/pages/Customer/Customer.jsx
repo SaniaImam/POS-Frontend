@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CustomerTable from "../../components/Customer/CustomerTable";
-import CustomerModal from "../../modals/CustomerModal";
+import CustomerModal from "../../components/Customer/CustomerModal";
+
 import {
     getCustomers,
     deleteCustomer
