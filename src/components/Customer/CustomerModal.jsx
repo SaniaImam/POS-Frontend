@@ -1,4 +1,4 @@
-import CustomerForm from "./CustomerForm";
+import CustomerForm from "../../components/customer/CustomerForm.jsx";
 import "../../styles/Customer/CustomerModal.css";
 
 

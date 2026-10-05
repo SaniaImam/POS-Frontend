@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CustomerModal from "../../components/Customer/CustomerModal";
+import CustomerModel from "../../models/CustomerModel.js";
 import {
     showSuccessAlert,
     showErrorAlert
@@ -15,20 +15,10 @@ function CustomerForm({
     onClose,
     onCustomerAdded
 }) {
-
+    
     const [formData, setFormData] = useState(
     customer || new CustomerModel()
 );
-
-    const handleSubmit = async (e) => {
-
-    e.preventDefault();
-
-    const customerData = {
-    name: formData.name,
-    phone: formData.phone,
-    email: formData.email
-};
 
 useEffect(() => {
     if (customer) {
@@ -37,6 +27,22 @@ useEffect(() => {
         setFormData(new CustomerModel());
     }
 }, [customer]);
+
+
+    const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    if (!formData.name.trim() || !formData.phone.trim()) {
+        showErrorAlert("Name and Phone are required.");
+        return;
+    }
+
+    const customerData = {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email
+    };
 
     try {
 

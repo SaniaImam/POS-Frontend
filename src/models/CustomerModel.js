@@ -1,4 +1,4 @@
-export class CustomerModel {
+export default class CustomerModel {
     constructor(
         id = 0,
         customerCode = "",
