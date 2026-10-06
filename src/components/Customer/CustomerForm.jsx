@@ -82,7 +82,7 @@ useEffect(() => {
             className="customer-form"
             onSubmit={handleSubmit}
         >
-
+npm run dev
             <h2>
                 {customer
                     ? "Edit Customer"
