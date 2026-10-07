@@ -1,0 +1,149 @@
+/* =========================
+   DESIGN TOKENS
+   (Sidebar renders on every page, so these load globally)
+========================= */
+
+:root {
+    --color-primary: #4338ca;
+    --color-primary-hover: #3730a3;
+    --color-primary-light: #eef2ff;
+
+    --color-warning: #b45309;
+    --color-warning-hover: #92400e;
+    --color-danger: #b91c1c;
+    --color-danger-hover: #991b1b;
+
+    --color-bg: #eef0f3;
+    --color-surface: #ffffff;
+    --color-border: #d1d5db;
+    --color-border-light: #e5e7eb;
+
+    --color-text: #111827;
+    --color-text-secondary: #374151;
+    --color-text-muted: #6b7280;
+
+    --color-sidebar-bg: #1e2433;
+    --color-sidebar-border: #2c3345;
+    --color-sidebar-text: #cbd0dc;
+    --color-sidebar-text-muted: #838ba1;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-pill: 999px;
+
+    --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.08);
+    --shadow-md: 0 4px 14px rgba(17, 24, 39, 0.12);
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 240px;
+    min-width: 240px;
+
+    min-height: 100vh;
+
+    background: var(--color-sidebar-bg);
+
+    border-right: 1px solid var(--color-sidebar-border);
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+
+/* LOGO */
+
+.sidebar-logo {
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 22px;
+
+    border-bottom: 1px solid var(--color-sidebar-border);
+}
+
+.sidebar-logo h2 {
+    margin: 0;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    color: #ffffff;
+
+    letter-spacing: -0.5px;
+}
+
+
+/* NAV */
+
+.sidebar-nav {
+    flex: 1;
+    padding: 12px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-item {
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 14px;
+
+    gap: 12px;
+
+    margin-bottom: 2px;
+
+    border-radius: var(--radius-sm);
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: var(--color-sidebar-text);
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-item svg {
+    width: 16px;
+
+    color: var(--color-sidebar-text-muted);
+
+    transition: color 0.15s ease;
+}
+
+.sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+.sidebar-item:hover svg {
+    color: #ffffff;
+}
+
+.sidebar-item.active {
+    background: var(--color-primary);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sidebar-item.active svg {
+    color: #ffffff;
+}

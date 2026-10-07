@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faGauge,
     faUsers,
     faBox
 } from "@fortawesome/free-solid-svg-icons";
+
+import "../../styles/Sidebar.css";
 
 const Sidebar = () => {
     return (
@@ -15,20 +17,35 @@ const Sidebar = () => {
 
             <nav className="sidebar-nav">
 
-                <Link to="/dashboard" className="sidebar-item">
+                <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                        isActive ? "sidebar-item active" : "sidebar-item"
+                    }
+                >
                     <FontAwesomeIcon icon={faGauge} />
                     <span>Dashboard</span>
-                </Link>
+                </NavLink>
 
-                <Link to="/customers" className="sidebar-item">
+                <NavLink
+                    to="/customers"
+                    className={({ isActive }) =>
+                        isActive ? "sidebar-item active" : "sidebar-item"
+                    }
+                >
                     <FontAwesomeIcon icon={faUsers} />
                     <span>Customers</span>
-                </Link>
+                </NavLink>
 
-                <Link to="/items" className="sidebar-item">
+                <NavLink
+                    to="/items"
+                    className={({ isActive }) =>
+                        isActive ? "sidebar-item active" : "sidebar-item"
+                    }
+                >
                     <FontAwesomeIcon icon={faBox} />
                     <span>Items</span>
-                </Link>
+                </NavLink>
 
             </nav>
         </aside>

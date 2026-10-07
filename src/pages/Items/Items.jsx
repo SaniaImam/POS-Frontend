@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import "../../styles/Items.css";
+
 import ItemTable from "../../components/Items/ItemTable";
 import ItemForm from "../../components/Items/ItemForm";
 
@@ -59,7 +61,7 @@ const Items = () => {
                 <h1>Items</h1>
 
                 <button onClick={handleAdd}>
-                    New Item
+                    + New Item
                 </button>
             </div>
 
