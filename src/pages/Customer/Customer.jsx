@@ -7,16 +7,10 @@ import CustomerModal from "../../components/Customer/CustomerModal";
 
 import {
     getCustomers,
-    addCustomer,
-    updateCustomer,
     deleteCustomer
 } from "../../services/CustomerService";
 
-import {
-    showSuccessAlert,
-    showErrorAlert,
-    showConfirmAlert
-} from "../../utils/sweetAlert";
+import { showConfirmAlert } from "../../utils/sweetAlert";
 
 const Customer = () => {
     const [customers, setCustomers] = useState([]);
@@ -44,23 +38,23 @@ const Customer = () => {
     };
 
     const handleDelete = async (id) => {
-    const result = await showConfirmAlert(
-        "Are you sure you want to delete this customer?"
-    );
+        const result = await showConfirmAlert(
+            "Are you sure you want to delete this customer?"
+        );
 
-    if (!result.isConfirmed) {
-        return;
-    }
+        if (!result.isConfirmed) {
+            return;
+        }
 
-    await deleteCustomer(id);
-    loadCustomers();
-};
+        await deleteCustomer(id);
+        loadCustomers();
+    };
 
-    const handleSubmit = () => {
-    setShowForm(false);
-    setEditingCustomer(null);
-    loadCustomers();
-};
+    const handleCustomerAdded = () => {
+        setShowForm(false);
+        setEditingCustomer(null);
+        loadCustomers();
+    };
 
     const filteredCustomers = customers.filter((customer) => {
         const term = searchTerm.toLowerCase();
@@ -76,51 +70,70 @@ const Customer = () => {
     return (
         <div className="customer-content">
 
-            <div className="customer-toolbar">
-                <div className="toolbar-left">
-                    <h1>Customers</h1>
+            <header className="page-header">
+                <h1>Customers</h1>
+
+                <button
+                    className="btn-primary"
+                    type="button"
+                    onClick={handleAdd}
+                >
+                    <i className="fa-solid fa-plus"></i>
+                    <span>New Customer</span>
+                </button>
+            </header>
+
+            <div className="toolbar">
+
+                <div className="search-wrap">
+                    <i className="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        id="search"
+                        className="search"
+                        type="text"
+                        aria-label="Search customers"
+                        placeholder="Search by name, phone or email"
+                        value={searchTerm}
+                        onChange={(e) =>
+                            setSearchTerm(e.target.value)
+                        }
+                    />
                 </div>
 
-                <div className="toolbar-right">
-                    <button
-                        className="new-button"
-                        onClick={handleAdd}
-                    >
-                        + New Customer
-                    </button>
-                </div>
+                <span className="count">
+                    {filteredCustomers.length}{" "}
+                    {filteredCustomers.length === 1
+                        ? "customer"
+                        : "customers"}
+                </span>
+
             </div>
 
-            <div className="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search customers..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-            </div>
+            <section className="card">
 
-            <div className="customer-list">
                 <CustomerTable
                     customers={filteredCustomers}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                 />
-            </div>
+
+            </section>
 
             {showForm && (
-               <CustomerModal
-               customer={editingCustomer}
-               onCustomerAdded={handleSubmit}
-               onClose={() => {
-               setShowForm(false);
-              setEditingCustomer(null);
-                }}
-              />
-             )}
+                <CustomerModal
+                    customer={editingCustomer}
+                    onCustomerAdded={handleCustomerAdded}
+                    onClose={() => {
+                        setShowForm(false);
+                        setEditingCustomer(null);
+                    }}
+                />
+            )}
 
         </div>
     );
 };
 
 export default Customer;
+

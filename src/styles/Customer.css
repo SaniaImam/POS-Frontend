@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 html,
 body,
 #root {
@@ -18,9 +20,9 @@ body,
 :root {
     color-scheme: light;
 
-    --color-primary: #4338ca;
-    --color-primary-hover: #3730a3;
-    --color-primary-light: #eef2ff;
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-primary-light: #eef0ff;
 
     --color-success: #15803d;
     --color-success-hover: #166534;
@@ -30,7 +32,7 @@ body,
     --color-danger-hover: #991b1b;
     --color-info: #0369a1;
 
-    --color-bg: #eef0f3;
+    --color-bg: #f3f4fb;
     --color-surface: #ffffff;
     --color-border: #d1d5db;
     --color-border-light: #e5e7eb;
@@ -39,12 +41,12 @@ body,
     --color-text-secondary: #374151;
     --color-text-muted: #6b7280;
 
-    --color-sidebar-bg: #1e2433;
-    --color-sidebar-border: #2c3345;
-    --color-sidebar-text: #cbd0dc;
-    --color-sidebar-text-muted: #838ba1;
+    --color-sidebar-bg: #0f1226;
+    --color-sidebar-border: rgba(255, 255, 255, 0.08);
+    --color-sidebar-text: #b4b9db;
+    --color-sidebar-text-muted: #8087b3;
 
-    --color-topbar-bg: #1a1f2b;
+    --color-topbar-bg: #0f1226;
 
     --radius-sm: 8px;
     --radius-md: 12px;
@@ -54,6 +56,8 @@ body,
     --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.08);
     --shadow-md: 0 4px 14px rgba(17, 24, 39, 0.12);
     --shadow-lg: 0 12px 28px rgba(17, 24, 39, 0.18);
+
+    --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* =========================
@@ -66,7 +70,7 @@ body,
 
     background: var(--color-bg);
 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-main);
     color: var(--color-text);
 }
 
@@ -76,14 +80,14 @@ body,
 ========================= */
 
 .sidebar {
-    width: 240px;
-    min-width: 240px;
+    width: 248px;
+    min-width: 248px;
 
     min-height: 100vh;
 
     background: var(--color-sidebar-bg);
 
-    border-right: 1px solid var(--color-sidebar-border);
+    border-right: none;
 
     display: flex;
     flex-direction: column;
@@ -96,23 +100,30 @@ body,
 
 .sidebar-logo {
     display: flex;
-    align-items: baseline;
-    gap: 6px;
+    align-items: center;
+    gap: 12px;
 
-    /* was missing spacing entirely, which is why the menu felt
-       jammed right up against the top of the sidebar */
-    padding: 22px 20px 18px;
+    padding: 26px 22px 24px;
     border-bottom: 1px solid var(--color-sidebar-border);
+}
+
+/* Logo mark (receipt tile). Drawn in CSS so no markup change is needed. */
+.sidebar-logo::before {
+    content: "";
+
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='40' height='40' rx='11' fill='url(%23g)'/%3E%3Cpath d='M12 9.5A1.5 1.5 0 0 1 13.5 8h13A1.5 1.5 0 0 1 28 9.5V31l-2.5-1.8L22.8 31 20 29.2 17.2 31l-2.7-1.8L12 31z' fill='%23fff'/%3E%3Crect x='15.5' y='13' width='9' height='2' rx='1' fill='%235b5bf0'/%3E%3Crect x='15.5' y='17.5' width='9' height='2' rx='1' fill='%235b5bf0'/%3E%3Crect x='15.5' y='22' width='5.5' height='2' rx='1' fill='%235b5bf0'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .logo-main {
     font-size: 1.5rem;
     font-weight: 800;
-    letter-spacing: 0.5px;
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    color: #ffffff;
 }
 
 .logo-sub {
@@ -128,7 +139,21 @@ body,
 
 .sidebar-menu {
     flex: 1;
-    padding: 18px 12px 12px;
+    padding: 18px 14px 12px;
+}
+
+.sidebar-menu::before {
+    content: "MENU";
+
+    display: block;
+
+    padding: 0 12px 10px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+
+    color: var(--color-sidebar-text-muted);
 }
 
 .menu-item {
@@ -137,16 +162,16 @@ body,
     display: flex;
     align-items: center;
 
-    padding: 0 14px;
+    padding: 0 12px;
 
     gap: 12px;
 
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
 
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 14.5px;
+    font-weight: 600;
 
     color: var(--color-sidebar-text);
 
@@ -155,14 +180,15 @@ body,
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.menu-item span {
-    width: 18px;
+.menu-item span,
+.menu-item i {
+    width: 20px;
 
     text-align: center;
 
-    color: var(--color-sidebar-text-muted);
+    color: inherit;
 
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .menu-item b {
@@ -176,18 +202,20 @@ body,
 }
 
 .menu-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.07);
     color: #ffffff;
 }
 
 .menu-item.active {
     border-left: none;
-    padding-left: 14px;
+    padding-left: 12px;
 
     background: var(--color-primary);
 
     color: #ffffff;
-    font-weight: 600;
+    font-weight: 700;
+
+    box-shadow: 0 8px 18px -6px rgba(79, 70, 229, 0.65);
 }
 
 .menu-item.active span {
@@ -374,12 +402,28 @@ body,
 
 .customer-toolbar {
     display: flex;
+    flex-wrap: wrap;
 
     justify-content: space-between;
 
     align-items: center;
 
-    margin-bottom: 20px;
+    gap: 16px;
+
+    /* spacing between sections now comes from the gap on .customer-content */
+    margin-bottom: 0;
+}
+
+.customer-toolbar h1,
+.customer-toolbar h2 {
+    margin: 0;
+
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+
+    color: #12142b;
 }
 
 .toolbar-left,
@@ -395,36 +439,37 @@ body,
 /* NEW */
 
 .new-button {
-    height: 40px;
+    height: 48px;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
 
-    padding: 0 20px;
+    padding: 0 22px;
 
     border: none;
 
-    border-radius: var(--radius-pill);
+    border-radius: 14px;
 
     background: var(--color-primary);
 
     color: white;
 
-    font-size: 14px;
+    font-size: 14.5px;
 
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1;
 
     cursor: pointer;
 
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 10px 22px -8px rgba(79, 70, 229, 0.7);
 
     transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .new-button svg,
+.new-button i,
 .new-button span {
     font-size: 14px;
     display: inline-flex;
@@ -532,19 +577,19 @@ body,
 
     align-items: center;
 
-    max-width: 420px;
+    max-width: 440px;
 
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .search-icon {
     position: absolute;
 
-    left: 14px;
+    left: 17px;
 
     font-size: 15px;
 
-    color: var(--color-text-muted);
+    color: #6b7194;
 
     pointer-events: none;
 }
@@ -554,28 +599,32 @@ body,
 
     box-sizing: border-box;
 
-    padding: 11px 40px 11px 38px;
+    height: 48px;
 
-    border: 2px solid var(--color-border);
+    padding: 0 44px 0 46px;
 
-    border-radius: var(--radius-pill);
+    border: 1px solid #aeb5d6;
+
+    border-radius: 14px;
 
     background: var(--color-surface);
 
-    font-size: 14px;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
 
     color: var(--color-text);
 
     outline: none;
 
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 2px rgba(18, 20, 43, 0.04);
 
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .search-bar input:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
 }
 
 .search-clear {
@@ -723,15 +772,15 @@ body,
 .customer-list {
     width: 100%;
 
-    border: 2px solid var(--color-border);
+    border: 1px solid #c3c8e0;
 
-    border-radius: var(--radius-lg);
+    border-radius: 18px;
 
     background: var(--color-surface);
 
     box-sizing: border-box;
 
-    box-shadow: 0 2px 8px rgba(17, 24, 39, 0.10), 0 8px 24px rgba(17, 24, 39, 0.08);
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
 
     overflow: hidden;
 }
@@ -790,7 +839,7 @@ body,
 
 .customer-table th:nth-child(1),
 .customer-table td:nth-child(1) {
-    width: 110px;
+    width: 170px;
 }
 
 .customer-table th:nth-child(2),
@@ -810,47 +859,48 @@ body,
 
 .customer-table th:nth-child(5),
 .customer-table td:nth-child(5) {
-    width: 150px;
+    width: 140px;
 
     text-align: right;
 
-    padding-right: 18px;
+    padding-right: 28px;
 }
 
 .customer-table th {
-    padding: 13px 14px;
+    padding: 15px 14px;
 
-    background: #f9fafb;
+    background: #f8f9fe;
 
     border-right: none;
 
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #d3d7ea;
 
-    color: var(--color-text-secondary);
+    color: #5b6082;
 
-    font-size: 12px;
+    font-size: 11.5px;
 
     font-weight: 700;
 
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.09em;
 
-    white-space: normal;
+    white-space: nowrap;
     line-height: 1.3;
-    overflow-wrap: break-word;
-    word-break: break-word;
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
 .customer-table td {
-    padding: 14px 14px;
+    padding: 16px 14px;
 
     border-right: none;
 
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid #e1e4f1;
 
     color: var(--color-text);
 
-    font-size: 14px;
+    font-size: 14.5px;
+    font-weight: 500;
 
     line-height: 1.4;
 
@@ -862,11 +912,11 @@ body,
 }
 
 .customer-table tbody tr:nth-child(even) td {
-    background: #f9fafb;
+    background: var(--color-surface);
 }
 
 .customer-table tbody tr:hover td {
-    background: var(--color-primary-light);
+    background: #f6f7ff;
 }
 
 .customer-table tbody tr:last-child td {
@@ -876,10 +926,24 @@ body,
 
 /* ID */
 
+.customer-table th:first-child,
 .customer-table td:first-child {
-    color: var(--color-text-muted);
+    padding-left: 28px;
+}
 
-    font-weight: 600;
+.customer-table td:first-child {
+    color: #3730a3;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+
+/* NAME */
+
+.customer-table td:nth-child(2) {
+    font-weight: 700;
 }
 
 
@@ -888,18 +952,27 @@ body,
 ========================= */
 
 .customer-table button {
-    padding: 7px 14px;
+    min-width: 38px;
+    height: 38px;
+
+    padding: 0 11px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    vertical-align: middle;
 
     border: none;
 
-    border-radius: var(--radius-sm);
+    border-radius: 11px;
 
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 600;
 
     cursor: pointer;
 
-    margin-right: 6px;
+    margin-right: 8px;
 
     transition: background-color 0.15s ease, transform 0.1s ease;
 }
@@ -909,23 +982,23 @@ body,
 }
 
 .customer-table button:first-child {
-    background: #fef3e2;
+    background: #fff4e5;
 
     color: var(--color-warning);
 }
 
 .customer-table button:first-child:hover {
-    background: #fde3bd;
+    background: #ffedd5;
 }
 
 .customer-table button:last-child {
-    background: #fde8e8;
+    background: #feecec;
 
     color: var(--color-danger);
 }
 
 .customer-table button:last-child:hover {
-    background: #fbd5d5;
+    background: #fee2e2;
 }
 
 .customer-table button:active {
@@ -1049,4 +1122,436 @@ body,
 
 .pos-alert-cancel:hover {
     background: #d1d5db;
+}
+/* =========================================================
+   NEW CUSTOMER SCREEN DESIGN
+   Added to existing Customer.css
+========================================================= */
+
+/* Customer Page */
+
+.customer-content {
+    padding: 40px 44px 48px;
+    background: #f3f4fb;
+    min-height: calc(100vh - 65px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    color: #12142b;
+}
+
+/* Page Header */
+
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* New Customer Button */
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    height: 48px;
+    padding: 0 22px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #4f46e5;
+    color: #ffffff;
+
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 22px -8px rgba(79, 70, 229, 0.7);
+
+    transition: filter 0.15s ease;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.08);
+}
+
+/* Toolbar */
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Search */
+
+.search-wrap {
+    position: relative;
+
+    flex: 1 1 280px;
+    max-width: 440px;
+
+    display: flex;
+    align-items: center;
+}
+
+.search-wrap i {
+    position: absolute;
+    left: 17px;
+
+    font-size: 15px;
+    color: #6b7194;
+
+    pointer-events: none;
+}
+
+.search {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 18px 0 46px;
+
+    border: 1px solid #aeb5d6;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+
+    color: #12142b;
+
+    box-shadow:
+        0 1px 2px rgba(18, 20, 43, 0.04);
+
+    outline: none;
+}
+
+.search:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 1px;
+
+    border-color: #4f46e5;
+}
+
+/* Customer Count */
+
+.count {
+    display: inline-flex;
+    align-items: center;
+
+    height: 32px;
+    padding: 0 14px;
+
+    border-radius: 999px;
+
+    background: #e7e9fb;
+    color: #3730a3;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Customer Table Card */
+
+.card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #c3c8e0;
+    border-radius: 18px;
+
+    box-shadow:
+        0 18px 40px -22px rgba(30, 27, 75, 0.28),
+        0 2px 6px rgba(18, 20, 43, 0.04);
+
+    overflow-x: auto;
+}
+
+/* Grid-based Customer Table */
+
+.customer-table {
+    min-width: 800px;
+}
+
+/* Table Rows */
+
+.customer-row {
+    display: grid;
+
+    grid-template-columns:
+        130px
+        minmax(190px, 1.4fr)
+        170px
+        minmax(220px, 1.6fr)
+        110px;
+
+    column-gap: 16px;
+
+    align-items: center;
+
+    padding: 16px 28px;
+
+    font-size: 14.5px;
+    font-weight: 500;
+}
+
+/* Table Header */
+
+.customer-header {
+    padding: 15px 28px;
+
+    background: #f8f9fe;
+
+    border-bottom: 1px solid #e6e8f4;
+
+    font-size: 11.5px;
+    font-weight: 700;
+
+    letter-spacing: 0.09em;
+
+    color: #5b6082;
+}
+
+/* Customer Rows */
+
+.customer-data {
+    border-top: 1px solid #eef0f8;
+}
+
+.customer-data:first-child {
+    border-top: none;
+}
+
+.customer-data:hover {
+    background: #f6f7ff;
+}
+
+.right {
+    text-align: right;
+}
+
+/* Customer Code */
+
+.code {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 8px;
+
+    background: #eef0ff;
+    color: #3730a3;
+
+    font-size: 12.5px;
+    font-weight: 700;
+
+    letter-spacing: 0.03em;
+}
+
+/* Customer Name */
+
+.who {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+.who b {
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+/* Avatar */
+
+.avatar {
+    flex: 0 0 38px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: #e7e9fb;
+    color: #3730a3;
+
+    font-size: 13.5px;
+    font-weight: 800;
+}
+
+/* Phone */
+
+.phone {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #2a2d4d;
+}
+
+.phone i {
+    font-size: 13px;
+    color: #6b7194;
+}
+
+/* Email */
+
+.email {
+    color: #2a2d4d;
+
+    overflow-wrap: anywhere;
+}
+
+/* Action Buttons */
+
+.actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+}
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 11px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.icon-btn.edit {
+    background: #fff4e5;
+    color: #b45309;
+}
+
+.icon-btn.edit:hover {
+    background: #ffedd5;
+}
+
+.icon-btn.del {
+    background: #feecec;
+    color: #b91c1c;
+}
+
+.icon-btn.del:hover {
+    background: #fee2e2;
+}
+
+/* Empty Table */
+
+.empty {
+    padding: 48px 28px;
+
+    text-align: center;
+
+    color: #5b6082;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    border-top: 1px solid #eef0f8;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+    .customer-content {
+        padding: 30px 24px 40px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .customer-content {
+        padding: 28px 20px 40px;
+    }
+
+    .page-header h1 {
+        font-size: 30px;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .toolbar {
+        align-items: stretch;
+    }
+
+    .search-wrap {
+        max-width: 100%;
+    }
+}
+
+
+/* =========================================================
+   FIXES
+========================================================= */
+
+/* New Customer button: stay indigo on hover (never white).
+   The selectors are deliberately specific so a global
+   `button:hover` rule elsewhere in the project can't override them. */
+
+.new-button:hover,
+.btn-primary:hover,
+button.new-button:hover,
+button.btn-primary:hover {
+    background: var(--color-primary-hover) !important;
+    color: #ffffff !important;
+    filter: none;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px -8px rgba(79, 70, 229, 0.75);
+}
+
+.new-button:active,
+.btn-primary:active {
+    background: var(--color-primary-hover) !important;
+    transform: translateY(0);
+}
+
+/* Search box: slightly darker border on hover */
+
+.search:hover:not(:focus),
+.search-bar input:hover:not(:focus) {
+    border-color: #8f98c4;
 }

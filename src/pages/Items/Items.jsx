@@ -16,11 +16,20 @@ const Items = () => {
     const [items, setItems] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
+    const [search, setSearch] = useState("");
 
     const loadItems = async () => {
         const data = await getItems();
         setItems(data);
     };
+
+    const filteredItems = items.filter((item) =>
+    [item.itemCode, item.itemName, item.categoryName].some((value) =>
+        String(value ?? "")
+            .toLowerCase()
+            .includes(search.trim().toLowerCase())
+    )
+);
 
     useEffect(() => {
         loadItems();
@@ -53,6 +62,7 @@ const Items = () => {
 
         loadItems();
     };
+    
 
     return (
         <div className="items-page">
@@ -61,12 +71,22 @@ const Items = () => {
                 <h1>Items</h1>
 
                 <button onClick={handleAdd}>
-                    + New Item
+                    New Item
                 </button>
             </div>
 
+            <div className="items-search">
+                <input
+                    type="text"
+                    aria-label="Search items"
+                    placeholder="Search by name, code or category"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
+
             <ItemTable
-                items={items}
+                items={filteredItems}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
             />
