@@ -1,0 +1,743 @@
+/* =========================
+   SALE MODULE SCREEN
+   Same look as Items.css; relies on tokens from Sidebar.css / Customer.css
+========================= */
+
+.sale-page {
+    padding: 40px 44px 48px;
+
+    background: var(--color-bg);
+
+    min-height: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    font-family: var(--font-main);
+    color: var(--color-text);
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.sale-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.sale-header h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #12142b;
+}
+
+.sale-header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.btn-sale-primary {
+    height: 48px;
+
+    padding: 0 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: var(--color-primary);
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 10px 22px -8px rgba(79, 70, 229, 0.7);
+
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+/* !important guards against the global button:hover rule */
+.btn-sale-primary:hover {
+    background: var(--color-primary-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.btn-sale-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-sale-secondary {
+    height: 48px;
+
+    padding: 0 20px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: #eef0fb;
+    color: #3a3f66;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.btn-sale-secondary:hover {
+    background: #e0e3f6 !important;
+}
+
+
+/* =========================
+   TOOLBAR (search + filters)
+========================= */
+
+.sale-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.sale-search {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    flex: 1;
+    min-width: 240px;
+    max-width: 440px;
+}
+
+.sale-search svg {
+    position: absolute;
+    left: 17px;
+    color: #6b7194;
+    pointer-events: none;
+}
+
+.sale-toolbar input,
+.sale-toolbar select {
+    height: 48px;
+
+    margin: 0;
+
+    border: 1px solid #aeb5d6;
+
+    border-radius: 14px;
+
+    background: var(--color-surface);
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+
+    color: var(--color-text);
+
+    outline: none;
+}
+
+.sale-search input {
+    width: 100%;
+    padding: 0 18px 0 46px;
+}
+
+.sale-toolbar select,
+.sale-toolbar input[type="date"] {
+    padding: 0 14px;
+}
+
+.sale-toolbar input:focus,
+.sale-toolbar select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.sale-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.sale-count {
+    margin-left: auto;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.sale-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.sale-stat {
+    padding: 18px 20px;
+
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 16px;
+
+    box-shadow: 0 2px 6px rgba(18, 20, 43, 0.04);
+}
+
+.sale-stat span {
+    display: block;
+
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+
+    color: #5b6082;
+}
+
+.sale-stat strong {
+    display: block;
+
+    margin-top: 6px;
+
+    font-size: 26px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+
+    color: #12142b;
+}
+
+.sale-stat.warning strong { color: var(--color-warning); }
+.sale-stat.danger strong { color: var(--color-danger); }
+
+
+/* =========================
+   TABLE
+========================= */
+
+.sale-table-container {
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
+
+    overflow-x: auto;
+}
+
+.sale-table {
+    width: 100%;
+    min-width: 760px;
+
+    border-collapse: collapse;
+
+    border-radius: 0;
+}
+
+.sale-table th,
+.sale-table td {
+    padding: 15px 14px;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid #e1e4f1;
+}
+
+.sale-table th:first-child,
+.sale-table td:first-child {
+    padding-left: 28px;
+}
+
+.sale-table th:last-child,
+.sale-table td:last-child {
+    padding-right: 28px;
+}
+
+.sale-table th {
+    background: #f8f9fe;
+
+    color: #5b6082;
+
+    font-size: 11.5px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid #d3d7ea;
+}
+
+.sale-table td {
+    color: var(--color-text);
+
+    font-size: 14.5px;
+    font-weight: 500;
+
+    background: var(--color-surface);
+}
+
+.sale-table tbody tr:hover td {
+    background: #f6f7ff;
+}
+
+.sale-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.sale-table tfoot td {
+    background: #f8f9fe;
+    font-weight: 800;
+    border-top: 1px solid #d3d7ea;
+    border-bottom: none;
+}
+
+.sale-table .col-code {
+    color: #3730a3;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+
+    white-space: nowrap;
+}
+
+.sale-table .strong {
+    font-weight: 700;
+}
+
+.sale-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.sale-table .actions-col {
+    width: 120px;
+    text-align: right;
+}
+
+.sale-empty {
+    text-align: center;
+    padding: 48px !important;
+    color: var(--color-text-muted) !important;
+    font-style: italic;
+}
+
+
+/* =========================
+   ROW ACTIONS
+========================= */
+
+.sale-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.sale-actions button {
+    width: 38px;
+    height: 38px;
+
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 11px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.sale-actions .view {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.sale-actions .edit {
+    background: #fff4e5;
+    color: var(--color-warning);
+}
+
+.sale-actions .delete {
+    background: #feecec;
+    color: var(--color-danger);
+}
+
+.sale-actions .view:hover { background: #e0e3ff !important; }
+.sale-actions .edit:hover { background: #ffedd5 !important; }
+.sale-actions .delete:hover { background: #fee2e2 !important; }
+
+
+/* =========================
+   BADGES
+========================= */
+
+.sale-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 10px;
+
+    border-radius: var(--radius-pill);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.sale-badge.success { background: #dcfce7; color: #166534; }
+.sale-badge.warning { background: #fef3c7; color: #92400e; }
+.sale-badge.danger { background: #fee2e2; color: #991b1b; }
+.sale-badge.info { background: #e0f2fe; color: #075985; }
+
+
+/* =========================
+   CARD (forms on a page)
+========================= */
+
+.sale-card {
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sale-card h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #12142b;
+}
+
+.sale-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.sale-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+
+/* =========================
+   FORM FIELDS
+========================= */
+
+.sale-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sale-field label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.sale-field input,
+.sale-field select,
+.sale-field textarea,
+.sale-line-input {
+    width: 100%;
+    height: 46px;
+
+    margin: 0;
+
+    padding: 0 14px;
+
+    border: 1px solid #aeb5d6;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+
+    color: var(--color-text);
+
+    background: var(--color-surface);
+
+    outline: none;
+
+    box-sizing: border-box;
+}
+
+.sale-field textarea {
+    height: auto;
+    min-height: 80px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+
+.sale-line-input {
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 10px;
+}
+
+.sale-line-input.num {
+    text-align: right;
+}
+
+.sale-field input:focus,
+.sale-field select:focus,
+.sale-field textarea:focus,
+.sale-line-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.sale-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-sale-add-line {
+    height: 40px;
+
+    padding: 0 16px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    border: 1px dashed var(--color-primary);
+
+    border-radius: 12px;
+
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+}
+
+.btn-sale-add-line:hover {
+    background: #e0e3ff !important;
+}
+
+.sale-total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 16px;
+
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.sale-total strong {
+    font-size: 26px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #12142b;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.sale-modal {
+    background: var(--color-surface);
+
+    border: 1px solid #e1e4f1;
+
+    border-radius: 20px;
+
+    padding: 32px;
+
+    width: 100%;
+    max-width: 480px;
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    box-shadow: 0 30px 70px -24px rgba(15, 18, 38, 0.55), 0 4px 12px rgba(15, 18, 38, 0.12);
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    font-family: var(--font-main);
+}
+
+.sale-modal.wide {
+    max-width: 860px;
+}
+
+.sale-modal h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #12142b;
+}
+
+.sale-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.sale-modal-close {
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #eef0fb;
+    color: #3a3f66;
+}
+
+.sale-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px 20px;
+
+    padding: 16px 18px;
+
+    border-radius: 14px;
+
+    background: #f8f9fe;
+}
+
+.sale-meta span {
+    display: block;
+
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    color: #5b6082;
+}
+
+.sale-meta strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 14.5px;
+}
+
+.sale-modal .sale-table {
+    min-width: 560px;
+}
+
+.sale-modal .sale-table-container {
+    box-shadow: none;
+    border-radius: 14px;
+}
+
+.sale-modal .sale-form-actions button {
+    height: 46px;
+    border-radius: 12px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .sale-page {
+        padding: 30px 24px 40px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .sale-page {
+        padding: 28px 16px 40px;
+    }
+
+    .sale-header h1 {
+        font-size: 30px;
+    }
+
+    .sale-search {
+        max-width: 100%;
+    }
+
+    .sale-count {
+        margin-left: 0;
+    }
+
+    .sale-card,
+    .sale-modal {
+        padding: 20px;
+    }
+}
