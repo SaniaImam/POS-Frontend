@@ -1,87 +1,73 @@
+
 const API_URL = "https://localhost:7289/api/Supplier";
 
+const handleResponse = async (response) => {
+    const text = await response.text();
 
-export async function getSuppliers() {
+    let data = null;
 
-    const response = await fetch(
-        `${API_URL}/GetSuppliers`,
-        {
-            method: "POST"
+    if (text) {
+        try {
+            data = JSON.parse(text);
+        } catch {
+            data = text;
         }
-    );
-
-    if (!response.ok) {
-        throw new Error("Failed to get suppliers");
     }
 
-    return await response.json();
-}
-
-
-export async function addSupplier(supplier) {
-
-    const response = await fetch(
-        `${API_URL}/AddSupplier`,
-        {
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify(supplier)
-        }
-    );
-
-    const data = await response.json();
-
     if (!response.ok) {
-        throw new Error(data.message || "Failed to add supplier");
+        const message =
+            typeof data === "string"
+                ? data
+                : data?.message ||
+                  data?.title ||
+                  `Request failed (${response.status})`;
+
+        throw new Error(message);
     }
 
     return data;
-}
+};
 
+// Get all suppliers
+export const getSuppliers = async () => {
+    const response = await fetch(`${API_URL}/GetSuppliers`, {
+        method: "POST"
+    });
 
-export async function updateSupplier(id, supplier) {
+    return handleResponse(response);
+};
 
-    const response = await fetch(
-        `${API_URL}/UpdateSupplier/${id}`,
-        {
-            method: "POST",
+// Add a supplier
+export const addSupplier = async (supplier) => {
+    const response = await fetch(`${API_URL}/AddSupplier`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(supplier)
+    });
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+    return handleResponse(response);
+};
 
-            body: JSON.stringify(supplier)
-        }
-    );
+// Update a supplier
+export const updateSupplier = async (id, supplier) => {
+    const response = await fetch(`${API_URL}/UpdateSupplier/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(supplier)
+    });
 
-    if (!response.ok) {
-        const errorData = await response.json();
+    return handleResponse(response);
+};
 
-        throw new Error(
-            errorData.message || "Failed to update supplier"
-        );
-    }
+// Delete a supplier
+export const deleteSupplier = async (id) => {
+    const response = await fetch(`${API_URL}/DeleteSupplier/${id}`, {
+        method: "POST"
+    });
 
-    return await response.text();
-}
-
-
-export async function deleteSupplier(id) {
-
-    const response = await fetch(
-        `${API_URL}/DeleteSupplier/${id}`,
-        {
-            method: "POST"
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error("Failed to delete supplier");
-    }
-
-    return await response.text();
-}
+    return handleResponse(response);
+};
