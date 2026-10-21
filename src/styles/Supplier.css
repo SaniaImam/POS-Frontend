@@ -1,0 +1,522 @@
+/* =========================
+   SUPPLIER SCREEN
+   (design tokens come from Sidebar.css / Items.css, which load globally)
+========================= */
+
+
+/* =========================
+   PAGE
+========================= */
+
+.suppliers-page {
+    padding: 40px 44px 48px;
+
+    background: var(--color-bg);
+
+    min-height: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    font-family: var(--font-main);
+    color: var(--color-text);
+}
+
+.suppliers-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.suppliers-header h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #12142b;
+}
+
+.suppliers-header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.suppliers-header button {
+    height: 48px;
+
+    padding: 0 22px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: var(--color-primary);
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 10px 22px -8px rgba(79, 70, 229, 0.7);
+
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+/* Stays indigo on hover; !important guards against the global button:hover rule */
+.suppliers-header button:hover {
+    background: var(--color-primary-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.suppliers-header button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================
+   SEARCH & FILTERS
+========================= */
+
+.suppliers-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.suppliers-search {
+    flex: 1;
+    min-width: 240px;
+    max-width: 440px;
+}
+
+.suppliers-toolbar input,
+.suppliers-toolbar select {
+    width: 100%;
+    height: 48px;
+
+    margin: 0;
+    padding: 0 16px;
+
+    border: 1px solid #aeb5d6;
+
+    border-radius: 14px;
+
+    background: var(--color-surface);
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+
+    color: var(--color-text);
+
+    outline: none;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.suppliers-toolbar select,
+.suppliers-toolbar input[type="date"] {
+    width: auto;
+}
+
+.suppliers-toolbar input::placeholder {
+    color: #6b7194;
+}
+
+.suppliers-toolbar input:focus,
+.suppliers-toolbar select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.suppliers-toolbar label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.suppliers-count {
+    margin-left: auto;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.suppliers-table-container {
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
+
+    overflow-x: auto;
+}
+
+.suppliers-table {
+    width: 100%;
+    min-width: 760px;
+
+    border-collapse: collapse;
+
+    border-radius: 0;
+}
+
+.suppliers-table th,
+.suppliers-table td {
+    padding: 15px 14px;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid #e1e4f1;
+}
+
+.suppliers-table th:first-child,
+.suppliers-table td:first-child {
+    padding-left: 28px;
+}
+
+.suppliers-table th:last-child,
+.suppliers-table td:last-child {
+    padding-right: 28px;
+}
+
+.suppliers-table th {
+    background: #f8f9fe;
+
+    color: #5b6082;
+
+    font-size: 11.5px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid #d3d7ea;
+}
+
+.suppliers-table td {
+    color: var(--color-text);
+
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    background: var(--color-surface);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.suppliers-table tbody tr:hover td {
+    background: #f6f7ff;
+}
+
+.suppliers-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Footer totals line up under the last (numeric) column */
+.suppliers-table tfoot td {
+    text-align: right;
+    white-space: nowrap;
+    background: #f8f9fe;
+    font-weight: 800;
+    border-top: 1px solid #d3d7ea;
+    border-bottom: none;
+}
+
+/* Code column */
+
+.suppliers-table tbody td:first-child {
+    color: #3730a3;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+
+    white-space: nowrap;
+}
+
+/* Supplier name */
+
+.suppliers-table td:nth-child(2) {
+    font-weight: 700;
+}
+
+/* Actions */
+
+.suppliers-table th:nth-child(7),
+.suppliers-table td:nth-child(7) {
+    width: 190px;
+    text-align: right;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.supplier-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+}
+
+.supplier-actions button {
+    height: 38px;
+
+    padding: 0 14px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.supplier-actions button:first-child {
+    background: #fff4e5;
+    color: var(--color-warning);
+}
+
+.supplier-actions button:first-child:hover {
+    background: #ffedd5 !important;
+}
+
+.supplier-actions button:last-child {
+    background: #feecec;
+    color: var(--color-danger);
+}
+
+.supplier-actions button:last-child:hover {
+    background: #fee2e2 !important;
+}
+
+.supplier-actions button:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================
+   FORM (MODAL)
+   (.modal-overlay comes from Items.css)
+========================= */
+
+.supplier-form {
+    background: var(--color-surface);
+
+    border: 1px solid #e1e4f1;
+
+    border-radius: 20px;
+
+    padding: 32px;
+
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    box-shadow: 0 30px 70px -24px rgba(15, 18, 38, 0.55), 0 4px 12px rgba(15, 18, 38, 0.12);
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    font-family: var(--font-main);
+}
+
+.supplier-form h2 {
+    margin: 0 0 4px 0;
+
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+
+    color: #12142b;
+}
+
+
+.supplier-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.supplier-form-field label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.supplier-form-field input,
+.supplier-form-field select,
+.supplier-form-field textarea {
+    width: 100%;
+    height: 46px;
+
+    margin: 0;
+    padding: 0 14px;
+
+    border: 1px solid #aeb5d6;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+
+    color: var(--color-text);
+
+    background: var(--color-surface);
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.supplier-form-field textarea {
+    height: auto;
+    min-height: 80px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+
+.supplier-form-field input::placeholder,
+.supplier-form-field textarea::placeholder {
+    color: #6b7194;
+}
+
+.supplier-form-field input:focus,
+.supplier-form-field select:focus,
+.supplier-form-field textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.supplier-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.supplier-form-actions button {
+    flex: 1;
+
+    height: 46px;
+
+    padding: 0 16px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.supplier-form-actions button[type="submit"] {
+    background: var(--color-primary);
+    color: #ffffff;
+
+    box-shadow: 0 10px 22px -10px rgba(79, 70, 229, 0.7);
+}
+
+.supplier-form-actions button[type="submit"]:hover {
+    background: var(--color-primary-hover) !important;
+}
+
+.supplier-form-actions button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.supplier-form-actions button[type="button"] {
+    background: #eef0fb;
+    color: #3a3f66;
+}
+
+.supplier-form-actions button[type="button"]:hover {
+    background: #e0e3f6 !important;
+}
+
+.supplier-form-actions button:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .suppliers-page {
+        padding: 30px 24px 40px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .suppliers-page {
+        padding: 28px 16px 40px;
+    }
+
+    .suppliers-header h1 {
+        font-size: 30px;
+    }
+
+    .suppliers-header button {
+        width: 100%;
+    }
+
+    .suppliers-search {
+        max-width: 100%;
+    }
+
+    .suppliers-count {
+        margin-left: 0;
+    }
+}

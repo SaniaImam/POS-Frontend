@@ -1,0 +1,1013 @@
+/* =========================
+   PURCHASE SCREENS (New Purchase, Purchase List)
+   (design tokens come from Sidebar.css / Items.css, which load globally)
+========================= */
+
+
+/* =========================
+   PAGE
+========================= */
+
+.purchases-page {
+    padding: 40px 44px 48px;
+
+    background: var(--color-bg);
+
+    min-height: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    font-family: var(--font-main);
+    color: var(--color-text);
+}
+
+.purchases-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.purchases-header h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #12142b;
+}
+
+.purchases-header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--color-text-muted);
+}
+
+.purchases-header button {
+    height: 48px;
+
+    padding: 0 22px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: var(--color-primary);
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 10px 22px -8px rgba(79, 70, 229, 0.7);
+
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+/* Stays indigo on hover; !important guards against the global button:hover rule */
+.purchases-header button:hover {
+    background: var(--color-primary-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.purchases-header button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================
+   SEARCH & FILTERS
+========================= */
+
+.purchases-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.purchases-search {
+    flex: 1;
+    min-width: 240px;
+    max-width: 440px;
+}
+
+.purchases-toolbar input,
+.purchases-toolbar select {
+    width: 100%;
+    height: 48px;
+
+    margin: 0;
+    padding: 0 16px;
+
+    border: 1px solid #aeb5d6;
+
+    border-radius: 14px;
+
+    background: var(--color-surface);
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+
+    color: var(--color-text);
+
+    outline: none;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.purchases-toolbar select,
+.purchases-toolbar input[type="date"] {
+    width: auto;
+}
+
+.purchases-toolbar input::placeholder {
+    color: #6b7194;
+}
+
+.purchases-toolbar input:focus,
+.purchases-toolbar select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.purchases-toolbar label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.purchases-count {
+    margin-left: auto;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.purchases-table-container {
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
+
+    overflow-x: auto;
+}
+
+.purchases-table {
+    width: 100%;
+    min-width: 760px;
+
+    border-collapse: collapse;
+
+    border-radius: 0;
+}
+
+.purchases-table th,
+.purchases-table td {
+    padding: 15px 14px;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid #e1e4f1;
+}
+
+.purchases-table th:first-child,
+.purchases-table td:first-child {
+    padding-left: 28px;
+}
+
+.purchases-table th:last-child,
+.purchases-table td:last-child {
+    padding-right: 28px;
+}
+
+.purchases-table th {
+    background: #f8f9fe;
+
+    color: #5b6082;
+
+    font-size: 11.5px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid #d3d7ea;
+}
+
+.purchases-table td {
+    color: var(--color-text);
+
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    background: var(--color-surface);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.purchases-table tbody tr:hover td {
+    background: #f6f7ff;
+}
+
+.purchases-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Footer totals line up under the last (numeric) column */
+.purchases-table tfoot td {
+    text-align: right;
+    white-space: nowrap;
+    background: #f8f9fe;
+    font-weight: 800;
+    border-top: 1px solid #d3d7ea;
+    border-bottom: none;
+}
+
+/* Code column */
+
+.purchases-table tbody td:first-child {
+    color: #3730a3;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+
+    white-space: nowrap;
+}
+
+/* Numeric columns */
+
+.purchases-table th:nth-child(5),
+.purchases-table td:nth-child(5),
+.purchases-table th:nth-child(6),
+.purchases-table td:nth-child(6) {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.purchases-table td:nth-child(3),
+.purchases-table td:nth-child(6) {
+    font-weight: 700;
+}
+
+.purchases-table th:nth-child(8),
+.purchases-table td:nth-child(8) {
+    width: 110px;
+    text-align: right;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.purchase-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+}
+
+.purchase-actions button {
+    height: 38px;
+
+    padding: 0 14px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.purchase-actions button {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.purchase-actions button:hover {
+    background: #e0e3ff !important;
+}
+
+.purchase-actions button:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================
+   FORM FIELDS (New Purchase)
+========================= */
+
+.purchase-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.purchase-form-field label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.purchase-form-field input,
+.purchase-form-field select,
+.purchase-form-field textarea {
+    width: 100%;
+    height: 46px;
+
+    margin: 0;
+    padding: 0 14px;
+
+    border: 1px solid #aeb5d6;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+
+    color: var(--color-text);
+
+    background: var(--color-surface);
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.purchase-form-field textarea {
+    height: auto;
+    min-height: 80px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+
+.purchase-form-field input::placeholder,
+.purchase-form-field textarea::placeholder {
+    color: #6b7194;
+}
+
+.purchase-form-field input:focus,
+.purchase-form-field select:focus,
+.purchase-form-field textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.purchase-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.purchase-form-actions button {
+    flex: 1;
+
+    height: 46px;
+
+    padding: 0 16px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.purchase-form-actions button[type="submit"] {
+    background: var(--color-primary);
+    color: #ffffff;
+
+    box-shadow: 0 10px 22px -10px rgba(79, 70, 229, 0.7);
+}
+
+.purchase-form-actions button[type="submit"]:hover {
+    background: var(--color-primary-hover) !important;
+}
+
+.purchase-form-actions button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.purchase-form-actions button[type="button"] {
+    background: #eef0fb;
+    color: #3a3f66;
+}
+
+.purchase-form-actions button[type="button"]:hover {
+    background: #e0e3f6 !important;
+}
+
+.purchase-form-actions button:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================
+   ITEM LINES (New Purchase)
+========================= */
+
+.purchase-lines-table-container {
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
+
+    overflow-x: auto;
+}
+
+.purchase-lines-table {
+    width: 100%;
+    min-width: 820px;
+
+    border-collapse: collapse;
+
+    border-radius: 0;
+}
+
+.purchase-lines-table th,
+.purchase-lines-table td {
+    padding: 15px 14px;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid #e1e4f1;
+}
+
+.purchase-lines-table th:first-child,
+.purchase-lines-table td:first-child {
+    padding-left: 28px;
+}
+
+.purchase-lines-table th:last-child,
+.purchase-lines-table td:last-child {
+    padding-right: 28px;
+}
+
+.purchase-lines-table th {
+    background: #f8f9fe;
+
+    color: #5b6082;
+
+    font-size: 11.5px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid #d3d7ea;
+}
+
+.purchase-lines-table td {
+    color: var(--color-text);
+
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    background: var(--color-surface);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.purchase-lines-table tbody tr:hover td {
+    background: #f6f7ff;
+}
+
+.purchase-lines-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Footer totals line up under the last (numeric) column */
+.purchase-lines-table tfoot td {
+    text-align: right;
+    white-space: nowrap;
+    background: #f8f9fe;
+    font-weight: 800;
+    border-top: 1px solid #d3d7ea;
+    border-bottom: none;
+}
+
+/* Code column */
+
+.purchase-lines-table tbody td:first-child {
+    color: #3730a3;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+
+    white-space: nowrap;
+}
+
+/* Numeric columns */
+
+.purchase-lines-table th:nth-child(4),
+.purchase-lines-table td:nth-child(4) {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.purchase-lines-table td:nth-child(4) {
+    font-weight: 700;
+}
+
+
+/* =========================
+   NEW PURCHASE CARDS
+========================= */
+
+.purchase-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.purchase-card {
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.purchase-card h2 {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    color: #12142b;
+}
+
+.purchase-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.purchase-card-header button {
+    height: 40px;
+
+    padding: 0 16px;
+
+    border: 1px dashed var(--color-primary);
+
+    border-radius: 12px;
+
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+}
+
+.purchase-card-header button:hover {
+    background: #e0e3ff !important;
+}
+
+.purchase-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+/* Inputs inside the item lines table */
+
+.purchase-lines-table input,
+.purchase-lines-table select {
+    width: 100%;
+    height: 40px;
+
+    margin: 0;
+    padding: 0 10px;
+
+    border: 1px solid #aeb5d6;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+
+    color: var(--color-text);
+
+    background: var(--color-surface);
+
+    outline: none;
+
+    box-sizing: border-box;
+}
+
+.purchase-lines-table input {
+    text-align: right;
+}
+
+.purchase-lines-table input:focus,
+.purchase-lines-table select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.purchase-lines-table tbody td:first-child {
+    color: var(--color-text);
+    font-size: 14.5px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+.purchase-lines-table td:nth-child(1) {
+    min-width: 240px;
+}
+
+.purchase-lines-table th:nth-child(2),
+.purchase-lines-table td:nth-child(2) {
+    width: 140px;
+}
+
+.purchase-lines-table th:nth-child(3),
+.purchase-lines-table td:nth-child(3),
+.purchase-lines-table th:nth-child(4),
+.purchase-lines-table td:nth-child(4) {
+    width: 160px;
+}
+
+.purchase-lines-table th:nth-child(5),
+.purchase-lines-table td:nth-child(5) {
+    width: 110px;
+    text-align: right;
+}
+
+.purchase-lines-table td:nth-child(5) button {
+    height: 38px;
+
+    padding: 0 14px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #feecec;
+    color: var(--color-danger);
+
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+}
+
+.purchase-lines-table td:nth-child(5) button:hover {
+    background: #fee2e2 !important;
+}
+
+.purchase-total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 16px;
+
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.purchase-total strong {
+    font-size: 26px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #12142b;
+}
+
+.purchase-form-actions {
+    justify-content: flex-end;
+}
+
+.purchase-form-actions button {
+    flex: 0 0 auto;
+    min-width: 140px;
+}
+
+
+/* =========================
+   DETAIL (MODAL)
+   (.modal-overlay comes from Items.css)
+========================= */
+
+.purchase-modal {
+    background: var(--color-surface);
+
+    border: 1px solid #e1e4f1;
+
+    border-radius: 20px;
+
+    padding: 32px;
+
+    width: 100%;
+    max-width: 860px;
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    box-shadow: 0 30px 70px -24px rgba(15, 18, 38, 0.55), 0 4px 12px rgba(15, 18, 38, 0.12);
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    font-family: var(--font-main);
+}
+
+.purchase-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.purchase-modal-header h2 {
+    margin: 0;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    color: #12142b;
+}
+
+.purchase-modal-close {
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #eef0fb;
+    color: #3a3f66;
+
+    font-size: 20px;
+    line-height: 1;
+}
+
+.purchase-modal-close:hover {
+    background: #e0e3f6 !important;
+}
+
+.purchase-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px 20px;
+
+    padding: 16px 18px;
+
+    border-radius: 14px;
+
+    background: #f8f9fe;
+}
+
+.purchase-meta > div > span {
+    display: block;
+
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    color: #5b6082;
+}
+
+.purchase-meta > div > strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 14.5px;
+}
+
+
+/* =========================
+   DETAIL ITEMS TABLE
+========================= */
+
+.purchase-items-table-container {
+    background: var(--color-surface);
+
+    border: 1px solid #c3c8e0;
+
+    border-radius: 18px;
+
+    box-shadow: 0 18px 40px -22px rgba(30, 27, 75, 0.28), 0 2px 6px rgba(18, 20, 43, 0.04);
+
+    overflow-x: auto;
+}
+
+.purchase-items-table {
+    width: 100%;
+    min-width: 560px;
+
+    border-collapse: collapse;
+
+    border-radius: 0;
+}
+
+.purchase-items-table th,
+.purchase-items-table td {
+    padding: 15px 14px;
+
+    text-align: left;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid #e1e4f1;
+}
+
+.purchase-items-table th:first-child,
+.purchase-items-table td:first-child {
+    padding-left: 28px;
+}
+
+.purchase-items-table th:last-child,
+.purchase-items-table td:last-child {
+    padding-right: 28px;
+}
+
+.purchase-items-table th {
+    background: #f8f9fe;
+
+    color: #5b6082;
+
+    font-size: 11.5px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid #d3d7ea;
+}
+
+.purchase-items-table td {
+    color: var(--color-text);
+
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    background: var(--color-surface);
+
+    font-variant-numeric: tabular-nums;
+}
+
+.purchase-items-table tbody tr:hover td {
+    background: #f6f7ff;
+}
+
+.purchase-items-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Footer totals line up under the last (numeric) column */
+.purchase-items-table tfoot td {
+    text-align: right;
+    white-space: nowrap;
+    background: #f8f9fe;
+    font-weight: 800;
+    border-top: 1px solid #d3d7ea;
+    border-bottom: none;
+}
+
+/* Code column */
+
+.purchase-items-table tbody td:first-child {
+    color: #3730a3;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+
+    white-space: nowrap;
+}
+
+/* Numeric columns */
+
+.purchase-items-table th:nth-child(3),
+.purchase-items-table td:nth-child(3),
+.purchase-items-table th:nth-child(4),
+.purchase-items-table td:nth-child(4),
+.purchase-items-table th:nth-child(5),
+.purchase-items-table td:nth-child(5),
+.purchase-items-table th:nth-child(6),
+.purchase-items-table td:nth-child(6) {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.purchase-items-table td:nth-child(2),
+.purchase-items-table td:nth-child(6) {
+    font-weight: 700;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .purchases-page {
+        padding: 30px 24px 40px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .purchases-page {
+        padding: 28px 16px 40px;
+    }
+
+    .purchases-header h1 {
+        font-size: 30px;
+    }
+
+    .purchases-header button {
+        width: 100%;
+    }
+
+    .purchases-search {
+        max-width: 100%;
+    }
+
+    .purchases-count {
+        margin-left: 0;
+    }
+
+    .purchase-card,
+    .purchase-modal {
+        padding: 20px;
+    }
+
+    .purchase-form-actions button {
+        flex: 1;
+    }
+}
