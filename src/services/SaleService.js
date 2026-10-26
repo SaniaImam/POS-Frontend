@@ -27,3 +27,21 @@ export const getSaleById = async (id) => {
 
     return data;
 };
+
+export const addSale = async (saleData) => {
+    const response = await fetch(`${API_URL}/AddSale`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(saleData)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || "Failed to complete sale");
+    }
+
+    return data;
+};

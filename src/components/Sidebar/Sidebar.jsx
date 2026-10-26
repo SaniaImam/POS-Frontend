@@ -25,8 +25,10 @@ const Sidebar = () => {
     const location = useLocation();
 
     const isPurchaseRoute = location.pathname.startsWith("/purchases");
+    const isSaleRoute = location.pathname.startsWith("/sales");
 
     const [purchaseOpen, setPurchaseOpen] = useState(isPurchaseRoute);
+    const [saleOpen, setSaleOpen] = useState(isSaleRoute);
 
     return (
         <aside className="sidebar">
@@ -35,7 +37,6 @@ const Sidebar = () => {
             </div>
 
             <nav className="sidebar-nav">
-
                 <NavLink to="/dashboard" className={navClass}>
                     <FontAwesomeIcon icon={faGauge} />
                     <span>Dashboard</span>
@@ -92,11 +93,31 @@ const Sidebar = () => {
                     <span>Inventory</span>
                 </NavLink>
 
-                <NavLink to="/sales" className={navClass}>
+                <button
+                    type="button"
+                    className={`sidebar-item sidebar-group-toggle${isSaleRoute ? " group-active" : ""}`}
+                    aria-expanded={saleOpen || isSaleRoute}
+                    onClick={() => setSaleOpen(!saleOpen)}
+                >
                     <FontAwesomeIcon icon={faReceipt} />
-                    <span>Sale Record</span>
-                </NavLink>
+                    <span>Sale</span>
+                    <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className={`sidebar-chevron${saleOpen || isSaleRoute ? " open" : ""}`}
+                    />
+                </button>
 
+                {(saleOpen || isSaleRoute) && (
+                    <div className="sidebar-submenu">
+                        <NavLink to="/sales/new" className={subNavClass}>
+                            New Sale
+                        </NavLink>
+
+                        <NavLink to="/sales" end className={subNavClass}>
+                            Sale Record
+                        </NavLink>
+                    </div>
+                )}
             </nav>
         </aside>
     );

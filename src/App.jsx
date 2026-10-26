@@ -10,6 +10,7 @@ import PurchaseList from "./pages/Purchase/PurchaseList.jsx";
 import GRN from "./pages/GRN/GRN.jsx";
 import Inventory from "./pages/Inventory/Inventory.jsx";
 import SaleRecord from "./pages/Sale/SaleRecord.jsx";
+import NewSale from "./pages/Sale/NewSale";
 
 const App = () => {
     return (
@@ -65,6 +66,11 @@ const App = () => {
                         <Route
                             path="/inventory"
                             element={<Inventory />}
+                        />
+
+                        <Route
+                            path="/sales/new"
+                            element={<NewSale />}
                         />
 
                         <Route
