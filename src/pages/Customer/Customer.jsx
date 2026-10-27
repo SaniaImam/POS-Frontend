@@ -10,6 +10,8 @@ import {
     deleteCustomer
 } from "../../services/CustomerService";
 
+import Swal from "sweetalert2";
+
 import { showConfirmAlert } from "../../utils/sweetAlert";
 
 const Customer = () => {
@@ -37,18 +39,36 @@ const Customer = () => {
         setShowForm(true);
     };
 
-    const handleDelete = async (id) => {
-        const result = await showConfirmAlert(
-            "Are you sure you want to delete this customer?"
-        );
+    
+const handleDelete = async (id) => {
+    const result = await showConfirmAlert(
+        "Are you sure you want to delete this customer?"
+    );
 
-        if (!result.isConfirmed) {
-            return;
-        }
+    if (!result.isConfirmed) {
+        return;
+    }
 
+    try {
         await deleteCustomer(id);
-        loadCustomers();
-    };
+
+        await Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "Customer deleted successfully."
+        });
+
+        await loadCustomers();
+    } catch (error) {
+        await Swal.fire({
+            icon: "error",
+            title: "Cannot Delete Customer",
+            text: error.message ||
+                "This customer has existing sales records and cannot be deleted."
+        });
+    }
+};
+
 
     const handleCustomerAdded = () => {
         setShowForm(false);

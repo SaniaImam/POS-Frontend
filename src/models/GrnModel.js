@@ -6,7 +6,7 @@ export default class GrnModel {
         purchaseNo = "",
         supplierName = "",
         grnDate = "",
-        remarks = "",
+        notes = "",
         itemCount = 0,
         totalQuantity = 0,
         items = []
@@ -17,7 +17,7 @@ export default class GrnModel {
         this.purchaseNo = purchaseNo;
         this.supplierName = supplierName;
         this.grnDate = grnDate;
-        this.remarks = remarks;
+        this.notes = notes;
         this.itemCount = itemCount;
         this.totalQuantity = totalQuantity;
         this.items = items;

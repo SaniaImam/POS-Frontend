@@ -109,7 +109,7 @@ const GrnForm = ({ onSubmit, onCancel }) => {
         onSubmit({
             purchaseId: Number(formData.purchaseId),
             grnDate: formData.grnDate,
-            remarks: formData.remarks,
+            notes: formData.notes,
             items: receivedLines.map((line) => ({
                 itemId: line.itemId,
                 receivedQuantity: Number(line.receivingQuantity)
@@ -229,9 +229,9 @@ const GrnForm = ({ onSubmit, onCancel }) => {
                 <div className="grn-form-field">
                     <label>Remarks</label>
                     <textarea
-                        name="remarks"
+                        name="notes"
                         placeholder="Optional notes (damaged goods, short delivery, etc.)"
-                        value={formData.remarks}
+                        value={formData.notes}
                         onChange={handleChange}
                     />
                 </div>

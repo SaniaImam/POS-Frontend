@@ -6,7 +6,7 @@ export default class PurchaseModel {
         supplierName = "",
         purchaseDate = "",
         invoiceNo = "",
-        remarks = "",
+        notes = "",
         itemCount = 0,
         totalAmount = 0,
         status = "",
@@ -18,7 +18,7 @@ export default class PurchaseModel {
         this.supplierName = supplierName;
         this.purchaseDate = purchaseDate;
         this.invoiceNo = invoiceNo;
-        this.remarks = remarks;
+        this.notes = notes;
         this.itemCount = itemCount;
         this.totalAmount = totalAmount;
         this.status = status;

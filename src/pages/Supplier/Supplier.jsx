@@ -32,7 +32,7 @@ const Supplier = () => {
     };
 
     const filteredSuppliers = suppliers.filter((supplier) =>
-        [supplier.supplierCode, supplier.name, supplier.contactPerson, supplier.phone, supplier.email].some((value) =>
+        [supplier.supplierCode, supplier.name, supplier.phone, supplier.email].some((value) =>
             String(value ?? "")
                 .toLowerCase()
                 .includes(search.trim().toLowerCase())

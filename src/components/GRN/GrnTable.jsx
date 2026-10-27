@@ -32,7 +32,7 @@ const GrnTable = ({ grns }) => {
                                 <td>{grn.supplierName}</td>
                                 <td>{grn.itemCount}</td>
                                 <td>{grn.totalQuantity}</td>
-                                <td>{grn.remarks || "-"}</td>
+                                <td>{grn.notes || "-"}</td>
                             </tr>
                         ))
                     )}

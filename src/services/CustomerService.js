@@ -71,7 +71,6 @@ export async function updateCustomer(id, customer) {
 
 
 export async function deleteCustomer(id) {
-
     const response = await fetch(
         `${API_URL}/DeleteCustomer/${id}`,
         {
@@ -80,7 +79,16 @@ export async function deleteCustomer(id) {
     );
 
     if (!response.ok) {
-        throw new Error("Failed to delete customer");
+        let message = "Failed to delete customer.";
+
+        try {
+            const data = await response.json();
+            message = data.message || data.title || message;
+        } catch {
+            // Response wasn't JSON.
+        }
+
+        throw new Error(message);
     }
 
     return await response.text();

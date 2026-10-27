@@ -98,7 +98,7 @@ const PurchaseForm = ({ onSubmit, onCancel }) => {
             supplierId: Number(formData.supplierId),
             purchaseDate: formData.purchaseDate,
             invoiceNo: formData.invoiceNo,
-            remarks: formData.remarks,
+            notes: formData.notes,
             items: filledLines.map((line) => ({
                 itemId: Number(line.itemId),
                 quantity: Number(line.quantity),
@@ -162,9 +162,9 @@ const PurchaseForm = ({ onSubmit, onCancel }) => {
                 <div className="purchase-form-field">
                     <label>Remarks</label>
                     <textarea
-                        name="remarks"
+                        name="notes"
                         placeholder="Optional notes"
-                        value={formData.remarks}
+                        value={formData.notes}
                         onChange={handleChange}
                     />
                 </div>

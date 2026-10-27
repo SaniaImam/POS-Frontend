@@ -2,22 +2,27 @@
 import { useEffect, useMemo, useState } from "react";
 import "../../styles/Sale.css";
 import { getItems } from "../../services/ItemService";
+import { getCustomers } from "../../services/CustomerService";
 import { addSale } from "../../services/SaleService";
 import { showErrorAlert } from "../../utils/sweetAlert";
 import Swal from "sweetalert2";
 
-
 const NewSale = () => {
     const [items, setItems] = useState([]);
+    const [customers, setCustomers] = useState([]);
     const [search, setSearch] = useState("");
     const [cart, setCart] = useState([]);
     const [discount, setDiscount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [customerLoading, setCustomerLoading] = useState(true);
 
     const [customerType, setCustomerType] = useState("walkin");
     const [customerId, setCustomerId] = useState("");
+    const [newCustomerName, setNewCustomerName] = useState("");
+    const [newCustomerPhone, setNewCustomerPhone] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("Cash");
+    const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
         const loadItems = async () => {
@@ -35,16 +40,31 @@ const NewSale = () => {
         loadItems();
     }, []);
 
+    useEffect(() => {
+        const loadCustomers = async () => {
+            try {
+                const response = await getCustomers();
+                setCustomers(Array.isArray(response) ? response : []);
+            } catch (err) {
+                console.error("Customer loading error:", err);
+                showErrorAlert("Unable to load customers.");
+            } finally {
+                setCustomerLoading(false);
+            }
+        };
+
+        loadCustomers();
+    }, []);
+
     const filteredItems = useMemo(() => {
         const term = search.trim().toLowerCase();
 
         if (!term) return items;
 
         return items.filter((item) =>
-            [item.itemName, item.itemCode, item.categoryName]
-                .some((value) =>
-                    String(value ?? "").toLowerCase().includes(term)
-                )
+            [item.itemName, item.itemCode, item.categoryName].some(
+                (value) => String(value ?? "").toLowerCase().includes(term)
+            )
         );
     }, [items, search]);
 
@@ -115,55 +135,93 @@ const NewSale = () => {
             maximumFractionDigits: 2,
         })}`;
 
-    const [submitting, setSubmitting] = useState(false);
-
-const handleCheckout = async () => {
-    if (cart.length === 0) {
-        showErrorAlert("Please add at least one item to the cart.");
-        return;
-    }
-
-    if (customerType === "existing" && !customerId) {
-        showErrorAlert("Please enter a customer ID.");
-        return;
-    }
-
-    const saleData = {
-        customerId: customerType === "existing"
-            ? Number(customerId)
-            : null,
-        discount: safeDiscount,
-        paymentMethod,
-        items: cart.map((item) => ({
-            itemId: item.itemId,
-            quantity: item.quantity,
-            unitPrice: item.price
-        }))
+    const resetCustomer = () => {
+        setCustomerType("walkin");
+        setCustomerId("");
+        setNewCustomerName("");
+        setNewCustomerPhone("");
     };
 
-    try {
-        setSubmitting(true);
+    const handleCheckout = async () => {
+        if (cart.length === 0) {
+            showErrorAlert("Please add at least one item to the cart.");
+            return;
+        }
 
-        await addSale(saleData);
+        if (customerType === "existing" && !customerId) {
+            showErrorAlert("Please select an existing customer.");
+            return;
+        }
 
-        await Swal.fire({
-         icon: "success",
-         title: "Sale Completed!",
-         text: "The sale has been saved successfully.",
-         confirmButtonText: "OK"
-     });
+        if (customerType === "new") {
+            if (!newCustomerName.trim() || !newCustomerPhone.trim()) {
+                showErrorAlert(
+                    "Please enter the new customer's name and phone number."
+                );
+                return;
+            }
+        }
 
-        setCart([]);
-        setDiscount(0);
-        setCustomerId("");
-        setCustomerType("walkin");
-    } catch (error) {
-        console.error("Sale error:", error);
-        showErrorAlert(error.message || "Unable to complete sale.");
-    } finally {
-        setSubmitting(false);
-    }
-};
+        const saleData = {
+            customerId:
+                customerType === "existing"
+                    ? Number(customerId)
+                    : null,
+
+            newCustomerName:
+                customerType === "new"
+                    ? newCustomerName.trim()
+                    : null,
+
+            newCustomerPhone:
+                customerType === "new"
+                    ? newCustomerPhone.trim()
+                    : null,
+
+            discount: safeDiscount,
+            paymentMethod,
+
+            items: cart.map((item) => ({
+                itemId: item.itemId,
+                quantity: item.quantity,
+                unitPrice: item.price,
+            })),
+        };
+
+        try {
+            setSubmitting(true);
+
+            const result = await addSale(saleData);
+
+            await Swal.fire({
+                icon: "success",
+                title: "Sale Completed!",
+                text: result?.saleNo
+                    ? `Sale ${result.saleNo} has been saved successfully.`
+                    : "The sale has been saved successfully.",
+                confirmButtonText: "OK",
+            });
+
+            setCart([]);
+            setDiscount(0);
+            resetCustomer();
+
+            // Refresh customer list so newly created customers are available.
+            if (customerType === "new") {
+                try {
+                    const response = await getCustomers();
+                    setCustomers(Array.isArray(response) ? response : []);
+                } catch (err) {
+                    console.error("Customer refresh error:", err);
+                }
+            }
+        } catch (err) {
+            console.error("Sale error:", err);
+            showErrorAlert(err.message || "Unable to complete sale.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <div className="new-sale-page">
@@ -252,6 +310,8 @@ const handleCheckout = async () => {
                                 onChange={(e) => {
                                     setCustomerType(e.target.value);
                                     setCustomerId("");
+                                    setNewCustomerName("");
+                                    setNewCustomerPhone("");
                                 }}
                             >
                                 <option value="walkin">Walk-in Customer</option>
@@ -262,16 +322,30 @@ const handleCheckout = async () => {
 
                         {customerType === "existing" && (
                             <label>
-                                Customer ID
-                                <input
-                                    type="number"
-                                    min="1"
+                                Customer
+                                <select
                                     value={customerId}
                                     onChange={(e) =>
                                         setCustomerId(e.target.value)
                                     }
-                                    placeholder="Enter customer ID"
-                                />
+                                    disabled={customerLoading}
+                                >
+                                    <option value="">
+                                        {customerLoading
+                                            ? "Loading customers..."
+                                            : "Select customer code"}
+                                    </option>
+
+                                    {customers.map((customer) => (
+                                        <option
+                                            key={customer.id}
+                                            value={customer.id}
+                                        >
+                                            {customer.customerCode} —{" "}
+                                            {customer.name} ({customer.phone})
+                                        </option>
+                                    ))}
+                                </select>
                             </label>
                         )}
 
@@ -281,6 +355,10 @@ const handleCheckout = async () => {
                                     Customer Name
                                     <input
                                         type="text"
+                                        value={newCustomerName}
+                                        onChange={(e) =>
+                                            setNewCustomerName(e.target.value)
+                                        }
                                         placeholder="Enter customer name"
                                     />
                                 </label>
@@ -289,6 +367,10 @@ const handleCheckout = async () => {
                                     Mobile Number
                                     <input
                                         type="tel"
+                                        value={newCustomerPhone}
+                                        onChange={(e) =>
+                                            setNewCustomerPhone(e.target.value)
+                                        }
                                         placeholder="Enter mobile number"
                                     />
                                 </label>
@@ -311,10 +393,7 @@ const handleCheckout = async () => {
                             <tbody>
                                 {cart.length === 0 ? (
                                     <tr>
-                                        <td
-                                            colSpan="5"
-                                            className="sale-empty-cart"
-                                        >
+                                        <td colSpan="5" className="sale-empty-cart">
                                             Add products to start a sale
                                         </td>
                                     </tr>
@@ -354,9 +433,7 @@ const handleCheckout = async () => {
                                                 <button
                                                     className="sale-remove-btn"
                                                     onClick={() =>
-                                                        removeFromCart(
-                                                            row.itemId
-                                                        )
+                                                        removeFromCart(row.itemId)
                                                     }
                                                     aria-label={`Remove ${row.itemName}`}
                                                 >
@@ -418,13 +495,13 @@ const handleCheckout = async () => {
                         </div>
                     </div>
 
-                   <button
+                    <button
                         className="sale-checkout-btn"
                         onClick={handleCheckout}
                         disabled={submitting}
                     >
-                      {submitting ? "Processing..." : "Complete Sale"}
-                   </button>
+                        {submitting ? "Processing..." : "Complete Sale"}
+                    </button>
                 </section>
             </div>
         </div>

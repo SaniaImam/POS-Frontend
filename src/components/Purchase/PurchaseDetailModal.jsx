@@ -43,7 +43,7 @@ const PurchaseDetailModal = ({ purchase, onClose }) => {
                     </div>
                 </div>
 
-                {purchase.remarks && <p>{purchase.remarks}</p>}
+                {purchase.notes && <p>{purchase.notes}</p>}
 
                 <div className="purchase-items-table-container">
                     <table className="purchase-items-table">
